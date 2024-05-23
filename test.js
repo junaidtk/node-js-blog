@@ -10,7 +10,7 @@ async function findPost() {
   console.log(findpost);
 }
 
-findPost();
+// findPost();
 
 async function ceatePost() {
   var createdPost = await Post.create({
@@ -23,6 +23,13 @@ async function ceatePost() {
 }
 
 // ceatePost();
+
+async function getSpecificItem() {
+  var item = await Post.findById("664f5955b664ca79cac77dd5");
+  console.log(item);
+}
+
+getSpecificItem();
 
 // Post.create({
 //   title: "junu title",
