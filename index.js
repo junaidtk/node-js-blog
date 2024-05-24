@@ -2,6 +2,9 @@ const express = require("express");
 const expressEdge = require("express-edge");
 const path = require("path");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
+const Post = require("./models/post");
 
 const app = new express();
 
@@ -11,20 +14,43 @@ app.use(express.static("public"));
 app.use(expressEdge);
 app.set("views", `${__dirname}/views`);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
-  res.render("index");
+  async function getAllPosts() {
+    var posts = await Post.find({});
+
+    console.log(posts);
+    res.render("index", {
+      posts,
+    });
+  }
+  getAllPosts();
 });
 
 app.get("/posts/new", (req, res) => {
   res.render("create");
 });
 
+app.post("/posts/store", (req, res) => {
+  async function createPost() {
+    const createdPosts = await Post.create(req.body);
+    console.log(createdPosts);
+    res.redirect("/");
+  }
+  createPost();
+});
+
 app.get("/about", (req, res) => {
   res.render("about");
 });
 
-app.get("/post", (req, res) => {
-  res.render("post");
+app.get("/post/:id", async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.render("post", {
+    post,
+  });
 });
 
 app.get("/contact", (req, res) => {

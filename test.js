@@ -4,6 +4,7 @@ const Post = require("./models/post");
 const { error } = require("console");
 
 mongoose.connect("mongodb://localhost/node-js-test-blog");
+// mongoose.connect("mongodb://localhost/node-js-blog");
 
 // Get all posts
 async function findAllPost() {
@@ -11,7 +12,7 @@ async function findAllPost() {
   console.log(findpost);
 }
 
-// findAllPost();
+findAllPost();
 
 // Find sepecific item with searched title
 async function findPost() {
@@ -49,7 +50,7 @@ async function updatePosts() {
   console.log(update);
 }
 
-updatePosts();
+//updatePosts();
 
 // Post.create({
 //   title: "junu title",

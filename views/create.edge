@@ -14,17 +14,17 @@
     </div>
 </header>
 <section>
-    <form>
+    <form action="/posts/store" method="post">
         <div class="control-group form-floating">
             <input class="form-control" id="title" name="title" type="text" placeholder="Title"/>
             <label for="name">Title</label>
         </div>
         <div class="control-group form-floating">
-            <input class="form-control" id="description" type="description" placeholder="Description" />
+            <input class="form-control" id="description" name="description" type="description" placeholder="Description" />
             <label for="description">Description</label>
         </div>
         <div class="control-group form-floating">
-            <textarea class="form-control" id="content">
+            <textarea class="form-control" id="content" name="content">
             </textarea>
             <label for="content">Content</label>
         </div>
