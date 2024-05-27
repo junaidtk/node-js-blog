@@ -14,23 +14,33 @@
     </div>
 </header>
 <section>
-    <form action="/posts/store" method="post">
-        <div class="control-group form-floating">
-            <input class="form-control" id="title" name="title" type="text" placeholder="Title"/>
-            <label for="name">Title</label>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <form action="/posts/store" method="post">
+                    <div class="control-group form-floating">
+                        <input class="form-control" id="username" name="username" type="text" placeholder="Username"/>
+                        <label for="name">Username</label>
+                    </div>
+                    <div class="control-group form-floating">
+                        <input class="form-control" id="title" name="title" type="text" placeholder="Title"/>
+                        <label for="name">Title</label>
+                    </div>
+                    <div class="control-group form-floating">
+                        <input class="form-control" id="description" name="description" type="description" placeholder="Description" />
+                        <label for="description">Description</label>
+                    </div>
+                    <div class="control-group form-floating">
+                        <textarea class="form-control" id="content" name="content">
+                        </textarea>
+                        <label for="content">Content</label>
+                    </div>
+                    <div class="form-group text-center my-4">
+                        <button class="btn btn-primary">Create Post</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="control-group form-floating">
-            <input class="form-control" id="description" name="description" type="description" placeholder="Description" />
-            <label for="description">Description</label>
-        </div>
-        <div class="control-group form-floating">
-            <textarea class="form-control" id="content" name="content">
-            </textarea>
-            <label for="content">Content</label>
-        </div>
-        <div class="form-group text-center my-4">
-            <button class="btn btn-primary">Create Post</button>
-        </div>
-    </form>
+    </div>
 </section>
 @endsection
