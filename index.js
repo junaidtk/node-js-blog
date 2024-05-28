@@ -19,11 +19,18 @@ app.set("views", `${__dirname}/views`);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var customMiddleware = (req, res, next) => {
+  console.log("I have been called");
+  next();
+};
+
+app.use(customMiddleware);
+
 app.get("/", (req, res) => {
   async function getAllPosts() {
     var posts = await Post.find({});
 
-    console.log(posts);
+    //console.log(posts);
     res.render("index", {
       posts,
     });
