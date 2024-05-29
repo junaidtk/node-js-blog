@@ -7,6 +7,10 @@ const fileUpload = require("express-fileupload");
 
 const Post = require("./models/post");
 
+const homePageController = require("./controllers/homePage");
+const creatPostController = require("./controllers/createPost");
+const storePostController = require("./controllers/storePost");
+
 const app = new express();
 
 mongoose.connect("mongodb://localhost/node-js-blog");
@@ -19,45 +23,26 @@ app.set("views", `${__dirname}/views`);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var customMiddleware = (req, res, next) => {
-  console.log("I have been called");
+var validateCreatePostMiddleware = (req, res, next) => {
+  if (
+    !req.files ||
+    !req.body.username ||
+    !req.body.title ||
+    !req.body.subtitle ||
+    !req.body.content
+  ) {
+    return res.redirect("/posts/new");
+  }
   next();
 };
 
-app.use(customMiddleware);
+app.use("/posts/store", validateCreatePostMiddleware);
 
-app.get("/", (req, res) => {
-  async function getAllPosts() {
-    var posts = await Post.find({});
+app.get("/", homePageController);
 
-    //console.log(posts);
-    res.render("index", {
-      posts,
-    });
-  }
-  getAllPosts();
-});
+app.get("/posts/new", creatPostController);
 
-app.get("/posts/new", (req, res) => {
-  res.render("create");
-});
-
-app.post("/posts/store", (req, res) => {
-  async function createPost() {
-    console.log(req.files);
-    const { image } = req.files;
-
-    image.mv(path.resolve(__dirname, "public/posts", image.name));
-
-    const createdPosts = await Post.create({
-      ...req.body,
-      image: `/posts/${image.name}`,
-    });
-    console.log(createdPosts);
-    res.redirect("/");
-  }
-  createPost();
-});
+app.post("/posts/store", storePostController);
 
 app.get("/about", (req, res) => {
   res.render("about");
