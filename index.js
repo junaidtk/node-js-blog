@@ -10,6 +10,9 @@ const Post = require("./models/post");
 const homePageController = require("./controllers/homePage");
 const creatPostController = require("./controllers/createPost");
 const storePostController = require("./controllers/storePost");
+const createUserController = require("./controllers/createUser");
+
+var validateCreatePostMiddleware = require("./middleware/storePost");
 
 const app = new express();
 
@@ -23,22 +26,11 @@ app.set("views", `${__dirname}/views`);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var validateCreatePostMiddleware = (req, res, next) => {
-  if (
-    !req.files ||
-    !req.body.username ||
-    !req.body.title ||
-    !req.body.subtitle ||
-    !req.body.content
-  ) {
-    return res.redirect("/posts/new");
-  }
-  next();
-};
-
 app.use("/posts/store", validateCreatePostMiddleware);
 
 app.get("/", homePageController);
+
+app.get("/auth/register", createUserController);
 
 app.get("/posts/new", creatPostController);
 
