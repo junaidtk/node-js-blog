@@ -11,6 +11,7 @@ const homePageController = require("./controllers/homePage");
 const creatPostController = require("./controllers/createPost");
 const storePostController = require("./controllers/storePost");
 const createUserController = require("./controllers/createUser");
+const storeUserController = require("./controllers/storeUser");
 
 var validateCreatePostMiddleware = require("./middleware/storePost");
 
@@ -35,6 +36,8 @@ app.get("/auth/register", createUserController);
 app.get("/posts/new", creatPostController);
 
 app.post("/posts/store", storePostController);
+
+app.post("/users/register", storeUserController);
 
 app.get("/about", (req, res) => {
   res.render("about");
