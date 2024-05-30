@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     try {
       const createdUser = await User.create(req.body);
       console.log("created user enddddd");
-      res.redirect("/");
+      return res.redirect("/");
     } catch (error) {
       //   console.log(
       //     Object.keys(error.errors).map((key) => error.errors[key].message)
@@ -35,7 +35,7 @@ module.exports = (req, res) => {
       console.log("resgistrationErrors");
       console.log(req.session.resgistrationErrors);
 
-      res.redirect("/auth/register");
+      return res.redirect("/auth/register");
     }
   }
   createUser();

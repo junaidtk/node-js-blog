@@ -5,11 +5,11 @@ module.exports = async (req, res, next) => {
     const user = await User.findById(req.session.userId);
 
     if (!user) {
-      res.redirect("/");
+      return res.redirect("/");
     }
 
     next();
   } catch (error) {
-    res.redirect("/");
+    return res.redirect("/");
   }
 };

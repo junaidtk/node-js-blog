@@ -19,19 +19,19 @@ module.exports = async (req, res) => {
 
         if (same) {
           req.session.userId = user._id;
-          res.redirect("/");
+          return res.redirect("/");
         }
       } catch (error) {
         console.log("error inside same user");
         console.log(error);
-        res.redirect("/auth/login");
+        return res.redirect("/auth/login");
       }
     } else {
-      res.redirect("/auth/login");
+      return res.redirect("/auth/login");
     }
   } catch (error) {
     console.log("error after user");
     console.log(error);
-    res.redirect("/auth/login");
+    return res.redirect("/auth/login");
   }
 };

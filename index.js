@@ -1,6 +1,7 @@
 const express = require("express");
 const expressEdge = require("express-edge");
 const path = require("path");
+// const edge = require("edge.js");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
@@ -17,9 +18,11 @@ const createUserController = require("./controllers/createUser");
 const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
+const logoutController = require("./controllers/logout");
 
 var storePost = require("./middleware/storePost");
 var auth = require("./middleware/auth");
+var redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
 
 const app = new express();
 mongoose.connect("mongodb://localhost/node-js-blog");
@@ -56,6 +59,11 @@ app.use(express.static("public"));
 app.use(expressEdge);
 app.set("views", `${__dirname}/views`);
 
+// app.use("*", (req, res, next) => {
+//   edge.global("auth", req.session.userId);
+//   next();
+// });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -63,17 +71,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", homePageController);
 
-app.get("/auth/register", createUserController);
-
 app.get("/posts/new", auth, creatPostController);
 
 app.post("/posts/store", auth, storePost, storePostController);
 
-app.post("/users/register", storeUserController);
+app.get("/auth/register", redirectIfAuthenticated, createUserController);
 
-app.get("/auth/login", loginController);
+app.post("/users/register", redirectIfAuthenticated, storeUserController);
 
-app.post("/users/login", loginUserController);
+app.get("/auth/login", redirectIfAuthenticated, loginController);
+
+app.post("/users/login", redirectIfAuthenticated, loginUserController);
+
+app.get("/auth/logout", redirectIfAuthenticated, logoutController);
 
 app.get("/about", (req, res) => {
   res.render("about");
