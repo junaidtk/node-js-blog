@@ -17,7 +17,8 @@ const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
 
-var validateCreatePostMiddleware = require("./middleware/storePost");
+var storePost = require("./middleware/storePost");
+var auth = require("./middleware/auth");
 
 const app = new express();
 mongoose.connect("mongodb://localhost/node-js-blog");
@@ -57,15 +58,15 @@ app.set("views", `${__dirname}/views`);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/posts/store", validateCreatePostMiddleware);
+// app.use("/posts/store", storePost);
 
 app.get("/", homePageController);
 
 app.get("/auth/register", createUserController);
 
-app.get("/posts/new", creatPostController);
+app.get("/posts/new", auth, creatPostController);
 
-app.post("/posts/store", storePostController);
+app.post("/posts/store", auth, storePost, storePostController);
 
 app.post("/users/register", storeUserController);
 
