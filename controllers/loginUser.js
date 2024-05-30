@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
         console.log(same);
 
         if (same) {
+          req.session.userId = user._id;
           res.redirect("/");
         }
       } catch (error) {

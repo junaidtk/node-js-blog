@@ -4,6 +4,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const expressSession = require("express-session");
+const connectMongo = require("connect-mongo");
 
 const Post = require("./models/post");
 
@@ -18,8 +20,34 @@ const loginUserController = require("./controllers/loginUser");
 var validateCreatePostMiddleware = require("./middleware/storePost");
 
 const app = new express();
-
 mongoose.connect("mongodb://localhost/node-js-blog");
+
+// const mongoStore = connectMongo(expressSession);
+
+// app.use(
+//   expressSession({
+//     secret: "secret",
+//     store: new mongoStore({
+//       mongooseConnection: mongoose.connection,
+//     }),
+//   })
+// );
+
+app.use(
+  expressSession({
+    secret: "secret",
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: false, // Don't create session until something is stored
+    store: connectMongo.create({
+      mongoUrl: "mongodb://localhost/node-js-blog",
+      collectionName: "sessions",
+    }),
+    cookie: {
+      secure: false, // Set to true in production when using HTTPS
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  })
+);
 
 app.use(fileUpload());
 app.use(express.static("public"));

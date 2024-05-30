@@ -5,6 +5,9 @@ module.exports = (req, res) => {
     var posts = await Post.find({});
 
     //console.log(posts);
+
+    console.log(req.session);
+
     res.render("index", {
       posts,
     });
