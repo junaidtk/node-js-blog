@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const expressSession = require("express-session");
 const connectMongo = require("connect-mongo");
+const connectFlash = require("connect-flash");
 
 const Post = require("./models/post");
 
@@ -49,7 +50,7 @@ app.use(
     },
   })
 );
-
+app.use(connectFlash());
 app.use(fileUpload());
 app.use(express.static("public"));
 app.use(expressEdge);

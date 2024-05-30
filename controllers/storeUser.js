@@ -17,10 +17,12 @@ module.exports = (req, res) => {
         (key) => error.errors[key].message
       );
 
+      req.flash("registrationErrors", resgistrationErrors);
+
       //   console.log("resgistrationErrors");
       //   console.log(resgistrationErrors);
 
-      req.session.registrationErrors = resgistrationErrors;
+      // req.session.registrationErrors = resgistrationErrors;
 
       //   req.session.save((err) => {
       //     if (err) {
