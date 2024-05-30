@@ -18,6 +18,7 @@ module.exports = (req, res) => {
       );
 
       req.flash("registrationErrors", resgistrationErrors);
+      req.flash("data", req.body);
 
       //   console.log("resgistrationErrors");
       //   console.log(resgistrationErrors);
